@@ -10,6 +10,16 @@ function isCoordValid(season: string, x: number, y: number) {
   if (season.toLowerCase() === "winter") {
     return x < 80 && y > -122;
   }
+  if (season.toLowerCase() === "autumn") {
+    if (
+      (x < -60 && y < -32) ||
+      (x < -96 && y < -20) ||
+      (x < -34 && y < -72) ||
+      (x < 0 && y < -100)
+    ) {
+      return false;
+    }
+  }
   return true;
 }
 
@@ -67,7 +77,8 @@ async function run() {
           const season = meta["---SEASON---"];
           if (
             season.toLowerCase().includes(searchText.toLowerCase()) &&
-            price < maxPrice * 1000000
+            price < maxPrice * 1000000 &&
+            isCoordValid(season, Number(meta["---X---"]), Number(meta["---Y---"]))
           ) {
             const link = `https://cnft.io/token/${nft._id}`;
             console.log({

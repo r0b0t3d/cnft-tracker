@@ -27,16 +27,14 @@ const argv = yargs
   .help()
   .alias("help", "h").argv;
 
-const args = process.argv.slice(2);
-
-// console.log({ argv: argv });
+const originalArgv = process.argv.slice(2);
 
 function main() {
-  const [project, ...otherArgs] = args;
-  fork(`src/projects/${project}.ts`, otherArgs);
+  console.log("Start:", originalArgv);
+  fork(`src/projects/${argv.project}.ts`, originalArgv);
   setInterval(() => {
-    console.log("Start:", otherArgs);
-    fork(`src/projects/${project}.ts`, otherArgs);
+    console.log("Start:", originalArgv);
+    fork(`src/projects/${argv.project}.ts`, originalArgv);
   }, 30000);
 }
 
